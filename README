@@ -1,0 +1,34 @@
+### Unix users (Ubuntu, Arch ...) ###
+
+# install dependencies (supposing you have curl already)
+sudo apt-get install libjansson-dev
+
+# generate autohell files
+./bootstrap_autohell
+
+# now you can run ./configure && make 
+# optionally ./configure --prefix=/path/to/my/folder if you don't want to install to /usr/local
+# make install
+
+
+
+### For Mac OSX Users ###
+
+#install dependencies
+brew install libjansson-dev
+
+brew install curl
+
+#generate autohell files
+./bootstrap_autohell
+autoreconf -i (if you face the ltmain.sh is missing error)
+
+# now you can run ./configure && make
+# optionally ./configure --prefix=/path/to/my/folder if you don't want to install to /usr/local
+# make install
+(if make doesn't run due to a missing jansson.h even if included, add the path to the jansson.h folder(not file) in AM_CFLAGS(/src/Makefile line : 344) Eg :  -I/usr/local/Cellar/jansson/2.7/include and it will run fine)
+Also if doesn't make due to a unsigned expression comparison, just erase the -Werror flag in AM_CFLAGS(/src/Makefile line 344) it will generate a warning but run smooth).
+
+
+### How to use it ###
+

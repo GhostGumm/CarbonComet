@@ -1,0 +1,17 @@
+cometd_transport* cometd_current_transport(const cometd* h);
+
+int cometd_register_transport(cometd_config* h,
+                              const cometd_transport* transport);
+
+int cometd_unregister_transport(cometd_config* h, const char* name);
+
+cometd_transport* cometd_find_transport(const cometd_config* h,
+                                        const char *name);CC	=	gcc -g3
+
+SRC	=	../*.c
+
+CFLAGS	=
+
+
+all:
+	$(CC) $(SRC) $(CFLAGS)
