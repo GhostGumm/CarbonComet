@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include "cometd.h"
+#include "cometd/exts/logger.h"
+
+static int handler(const cometd* h, JsonNode* msg)
+{
+  return COMETD_SUCCESS;
+}
+
+int main(void)
+{
+  cometd* cometd = cometd_new();
+
+  cometd_configure(cometd, COMETDOPT_URL, "http://localhost:8089/cometd");
+  cometd_configure(cometd, COMETDOPT_MAX_BACKOFF, 5000);
+
+  struct cometd_ext* logger = cometd_ext_logger_new();
+  cometd_ext_add(&cometd->exts, logger);
+
+  cometd_connect(cometd);
+  cometd_subscribe(cometd, "/foo/bar/baz", handler);
+
+  GThread* thread = cometd_listen_async(cometd);
+
+  JsonNode* n = cometd_json_str2node("{ \"hey\": \"now\" }");
+
+  guint i;
+  for (i = 0; i < 500000; ++i)
+    cometd_publish(cometd, "/foo/bar/baz", n);
+  json_node_free(n);
+
+  cometd_disconnect(cometd, 0);
+  g_thread_join(thread);
+  cometd_destroy(cometd);
+
+  printf("sleeping now...\n");
+  sleep(1000);
+
+  return 0;
+}
