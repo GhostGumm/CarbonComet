@@ -38,7 +38,9 @@ int main(int argc, char** argv) {
 		  int i = 0;
 		  if (!zeta_handshake(client))/* Here to handshakes */ {
 		    printf("cometd_handshake OK\n");
+		    
 		    while (!cometd_main_loop(client->cometClient)) { //Here we perform the handshake
+		      /*I will nest my code here */
 		      //printf("cometd_main_loop OK\n");
 		      //if (!(i++ % 10))
 		      // this was already comented	cometd_send_chat_message(client, "this is a chat message", buddy);
