@@ -38,7 +38,6 @@ static void cometd_send_chat_message(cometd_client_t * client, const char * mess
 	json_object_set_new(data, TARGETS_FIELD, targets);
 	cometd_publish(client, CHAT_CHANNEL, data);
 }
-
 int main(int argc, char** argv) {
 	if (argc != 5) {
 		printf("Bad number of arguments (%d) . Usage : %s <server> <login> <resource> <buddy>\n", argc-1, argv[0]);

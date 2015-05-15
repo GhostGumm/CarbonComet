@@ -4,6 +4,7 @@
 #include <curl/multi.h>
 #include <unistd.h>
 
+
 const size_t BUFFER_SIZE = 128 * 1024;// arbitrary;
 
 typedef struct cometd_transport_long_polling {
@@ -40,7 +41,7 @@ static int long_polling_seek(void *instream, curl_off_t offset, int origin) {
 static cometd_transport_message_parser defaultParser;
 
 int cometd_http_transport_init(cometd_transport_message_parser p) {
-	defaultParser = p;
+  defaultParser = p; /* This is not good to globa in c */
 	return 0;// OK 
 }
 /** returns true if unsuccessful */
@@ -64,6 +65,7 @@ bool cometd_handle_response(cometd_transport_long_polling_t * longTransport, com
 /** returns true if unsuccessful */
 bool cometd_long_polling_messages_sender(cometd_transport_t* transport, cometd_client_t * client) {
 	CMTD_TRACE_IN
+	  /*All transport and data needed to long pole is in longTransport structure ptype it for more info */
 	cometd_transport_long_polling_t * longTransport = (cometd_transport_long_polling_t*)transport;
 	CMTD_TRACE_DEBUG("dumping msgs\n")
 	if (longTransport->prioritaryMessage)
@@ -114,8 +116,9 @@ bool cometd_long_polling_main(cometd_transport_t* transport, cometd_client_t * c
 		cometd_client_impl* cli = (cometd_client_impl*)client;
 		cometd_handshake(client, cli->handshakeFields);
 	}
-	return cometd_long_polling_messages_sender(transport, client);
+	return cometd_long_polling_messages_sender(transport, client); /*As the state for it self we send the message */
 }
+
 void cometd_long_polling_message_sender(cometd_transport_t* transport, cometd_message * message, cometd_client_t * client, bool bypassQueue) {
 	CMTD_TRACE_IN
 	cometd_transport_long_polling_t * longTransport = (cometd_transport_long_polling_t*)transport;
@@ -151,8 +154,9 @@ void cometd_long_polling_transport_init(cometd_transport_t * transport, const ch
 	struct curl_slist *headers=NULL;
 	headers = curl_slist_append(headers, "Content-Type: application/json");
 	headers = curl_slist_append(headers, "Connection: keep-alive");
+	headers = curl_slist_append(headers, "Origin: Hakim");
+	//headers = curl_slist_append(headers, "Origin: Hakim");
 	
-
 	// TODO at cleanup time  : curl_slist_free_all(slist);
 	
 	curl_easy_setopt(longTransport->sendHandle, CURLOPT_HTTPHEADER, headers);

@@ -62,22 +62,23 @@ size_t cometd_buffer_readable_bytes(cometd_buffer_t * buffer) {
 }
 
 #define ARRAY_BASE_SIZE 4
-void cometd_array_add(void * element, cometd_array_t** array) {
+void cometd_array_add(void * element, cometd_array_t** array) { /* Don't be confused here :  "array" is just a double pointer on a structure, the name array here is very ambigous need to change it. Anyway, the structure contains a real array and a size_t capacity.
+The double pointer on a structure is for modifying the struct without having to return it.*/
 	CMTD_TRACE_IN
 	if (!array || !element) {
 		CMTD_TRACE_OUT
 		return ;
 	}
-	if (!*array) {
+	if (!*array) { /* Here we are malloking the array structure and the array inside the strucutre as well */
 		*array = (cometd_array_t*) cometd_zmalloc_fn(sizeof(cometd_array_t));
-		if (!*array) return ;
+		if (!*array) return ; /* Maybe an allocation failure needs to exit(-1) as it is very critical */
 		(*array)->array = (void **)cometd_zmalloc_fn(sizeof(void *) * (ARRAY_BASE_SIZE+1));
 		(*array)->capacity = ARRAY_BASE_SIZE;
 	}
 	void** p = (*array)->array;
-	while(*p) p++;
-	int offset = p - (*array)->array;
-	size_t oldCapacity = (*array)->capacity;
+	while(*p) p++; /*Iteration sur Array.array(char **) */
+	int offset = p - (*array)->array;/*No clue*/
+	size_t oldCapacity = (*array)->capacity; /*No clue here too */
 	if (offset >= oldCapacity) {
 		(*array)->capacity = oldCapacity * 2;
 		p = (void **)cometd_zmalloc_fn(sizeof(void *) * ((*array)->capacity+1));

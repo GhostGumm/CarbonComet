@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include <search.h>
 #include <string.h>
@@ -47,7 +46,7 @@ void onSuccessfulConnect(cometd_client_t * client) {
 void onDisconnectRequest(cometd_client_t * client) {
 	client->state = UNCONNECTED;
 }
-int cometd_init(void) {
+int cometd_init(void) {/* Here its to init the transport structure but it is bad to use globals specilay for a library */
 	return cometd_http_transport_init(&cometd_transport_default_message_parser);
 }
 static bool cometd_handshake_callback(cometd_client_t * client, cometd_message * message) {
@@ -79,7 +78,8 @@ static bool cometd_disconnect_callback(cometd_client_t * client, cometd_message 
 }
 cometd_client_t * cometd_create_client(const char * serverUrl, cometd_transport_t * transport) {
 	CMTD_TRACE_IN
-	CALLOC(cometd_client_impl, client);
+	  /* Here the client is finalizing its initializations to perform a handshake, as well as a Meta_Connect */
+	  CALLOC(cometd_client_impl, client); /*Here as well the client struct seems to be given as a global variable,hummm....*/
 	client->base.transport = transport;
 	client->subscriptions = 0;
 	transport->serverUrl =  serverUrl;
@@ -127,7 +127,7 @@ static bool cometd_channel_needs_meta_subscribe(const char * channel) {
 void cometd_channel_subscribe(cometd_client_t * client, cometd_subscription_callback callback, const char * channel) {
 	CMTD_TRACE_IN
 	cometd_client_impl* cli = (cometd_client_impl*)client;
-	cometd_client_subscription* sub = cometd_find_subscription(client, channel);
+	cometd_client_subscription* sub = cometd_find_subscription(client, channel);/*Here we iterate ont the client with the channel name to chekc if we aren't already subscribed */
 	if (!sub) {
 		sub = cometd_zmalloc_fn(sizeof(cometd_client_subscription));
 		sub->channel = channel;
@@ -135,13 +135,13 @@ void cometd_channel_subscribe(cometd_client_t * client, cometd_subscription_call
 	}
 	cometd_array_add((void*)(unsigned long int)callback, &sub->callbacks);
 	if (cometd_channel_needs_meta_subscribe(channel)) {
-		//printf("TODO : /meta/subscribe for public channels if it's really needed");
+		printf("TODO : /meta/subscribe for public channels if it's really needed");
 	}
 	CMTD_TRACE_DEBUG("Added a callback for channel %s\n", channel)
 	CMTD_TRACE_OUT
 }
 bool cometd_main_loop(cometd_client_t * client) {
-	CMTD_TRACE_IN
+  CMTD_TRACE_IN /* perform a longpoling connection */
 	bool result = client->transport->main(client->transport, client);
 	CMTD_TRACE_DEBUG("result is %d\n", result)
 	CMTD_RETURN(result);
