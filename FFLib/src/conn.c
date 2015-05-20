@@ -82,9 +82,6 @@ cometd_advice_is_retry(const cometd_advice* advice)
 {
   g_assert(advice != NULL);
 
-  puts("Gotcha !!!!!");
-  exit(0);
-
   return advice->reconnect == COMETD_RECONNECT_RETRY;
 }
 

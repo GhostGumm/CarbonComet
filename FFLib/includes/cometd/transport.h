@@ -4,9 +4,10 @@
 #include "../cometd.h"
 
 struct _cometd_transport {
-  char*                name;
-  cometd_send_callback send;
-  cometd_recv_callback recv;
+  char*			name;
+  cometd_send_callback	send;
+  cometd_recv_callback	recv;
+  bool			isWebSocket;
 };
 
 struct _cometd_transport* cometd_transport_negotiate(GList* registry, JsonNode* n);

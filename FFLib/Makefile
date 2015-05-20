@@ -1,6 +1,6 @@
 CC	=	gcc -g3 -std=c11 
 
-CFLAGS	=	`pkg-config --cflags --libs glib-2.0` `pkg-config --cflags --libs json-glib-1.0` -I./includes -I./includes/exts -I./includes/loops -arch x86_64 /usr/lib/libcurl.dylib
+CFLAGS	=	`pkg-config --cflags --libs glib-2.0` `pkg-config --cflags --libs json-glib-1.0` -I./includes -I./includes/exts -I./includes/loops -arch x86_64 /usr/lib/libcurl.dylib `pkg-config --cflags --libs nopoll`
 
 SRC	=	./main.c\
 		./src/channel.c\

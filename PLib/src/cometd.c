@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <search.h>
 #include <string.h>
-
+#include <nopoll.h>
 #include "cometd.h"
 #include "cometd_internal.h"
 
@@ -141,8 +141,9 @@ void cometd_channel_subscribe(cometd_client_t * client, cometd_subscription_call
 	CMTD_TRACE_OUT
 }
 bool cometd_main_loop(cometd_client_t * client) {
+
   CMTD_TRACE_IN /* perform a longpoling connection */
-	bool result = client->transport->main(client->transport, client);
-	CMTD_TRACE_DEBUG("result is %d\n", result)
-	CMTD_RETURN(result);
+    bool result = client->transport->main(client->transport, client);
+  CMTD_TRACE_DEBUG("result is %d\n", result)
+  CMTD_RETURN(result);
 }

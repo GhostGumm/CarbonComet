@@ -35,6 +35,7 @@
 
 #include <glib.h>
 #include <json-glib/json-glib.h>
+#include <stdbool.h>
 
 // Forward declaration stuff
 struct _cometd;
@@ -92,7 +93,9 @@ typedef struct {
   long   max_network_delay;
   long   request_timeout;
   int    append_message_type_to_url;
-  GList* transports; 
+  GList* transports;
+  bool	 webSockState;
+  
 } cometd_config;
 
 // system handlers

@@ -43,6 +43,7 @@ cometd_new(void)
   config->request_timeout   = DEFAULT_REQUEST_TIMEOUT;
   config->append_message_type_to_url = DEFAULT_APPEND_MESSAGE_TYPE;
   config->transports        = NULL;
+  config->webSockState	    = true;
   cometd_register_transport(config, &COMETD_TRANSPORT_LONG_POLLING);
 
   
@@ -803,6 +804,7 @@ cometd_register_transport(cometd_config* h, const cometd_transport* transport){
   t->name = transport->name;
   t->send = transport->send;
   t->recv = transport->recv;
+  t->isWebSocket = h->webSockState;
 
   h->transports = g_list_prepend(h->transports, t);
 

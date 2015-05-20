@@ -116,7 +116,7 @@ bool cometd_long_polling_main(cometd_transport_t* transport, cometd_client_t * c
 		cometd_client_impl* cli = (cometd_client_impl*)client;
 		cometd_handshake(client, cli->handshakeFields);
 	}
-	return cometd_long_polling_messages_sender(transport, client); /*As the state for it self we send the message */
+	return cometd_long_polling_messages_sender(transport, client); /*The title stand for it self we send the message */
 }
 
 void cometd_long_polling_message_sender(cometd_transport_t* transport, cometd_message * message, cometd_client_t * client, bool bypassQueue) {
