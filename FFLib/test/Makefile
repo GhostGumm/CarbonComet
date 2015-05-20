@@ -1,4 +1,4 @@
-CC	=	gcc  -m32 -std=c1x -L/usr/lib/lib -g3 -I/Users/elbakk_a/libwebsockets-master/lib
+CC	=	gcc  -m32  -L/usr/lib/lib -g3 -I/Users/elbakk_a/libwebsockets-master/lib
 
 SRC	=	./client.c\
 
