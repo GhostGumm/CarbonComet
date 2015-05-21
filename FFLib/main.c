@@ -73,6 +73,7 @@ int main(void)
   connect = cometd_msg_connect_new(cometd);
   cometd_transport_send(cometd, connect);  
   //nopoll_get_conn();
+  system()
   //sleep(2);
   exit (0);
   cometd_subscribe(cometd, "/service/GmY-HuzW/6sd0/ls", handler);
