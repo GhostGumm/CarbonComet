@@ -614,33 +614,16 @@ cometd_new_handshake_message(const cometd* h)
   json_object_set_string_member(dataObject, "login", "test2");
   json_object_set_string_member(dataObject, "password", "password");
 
-  ////////////////Data Concatenation////////////                                                                                                                                                                                                 
-
-  /////////////////Auth/////////////////                                                                                                                                                                                                         
-
-  // I begin from the most inner JsonObject of my Json File                                                                                                                                                                                      
-
-  //here i initialize my Root JsonNode with an object in it and a JsonObject to be able to get the object from the JsonNode                                                                                                                      
-
   JsonObject* authObject = json_object_new();
   JsonNode*   authNode = json_node_new(JSON_NODE_OBJECT);
   JsonNode*   authRoot = json_node_init_object(authNode, authObject);
 
-  // Here i retrieve the initialized JsonObject that is inside my JsonNode                                                                                                                                                                       
   authObject = json_node_get_object(authRoot);
 
-  // And here some few insertion of strings in the object                                                                                                                                                                                        
   json_object_set_string_member(authObject, "action", "authenticate");
   json_object_set_string_member(authObject, "type", "GmY-HuzW.KZyH.simple");
   json_object_set_string_member(authObject, "resource", "zetapushTuto");
   json_object_set_member(authObject, "data", dataRoot);
-
-  ///////////////Auth/////////////////                                                                                                                                                                                                           
-
-
-
-  //////////////First Concatenation : Authentication///////////////                                                                                                                                                                              
-  //Here i make the authentication of my first JsonObject with a upper membrane.                                                                                                                                                                 
 
   JsonObject *extMembrane = json_object_new();
   JsonNode   *contactMembrane = json_node_new(JSON_NODE_OBJECT);
@@ -649,10 +632,7 @@ cometd_new_handshake_message(const cometd* h)
   extMembrane = json_node_get_object(secondRootMembrane);
 
   json_object_set_member(extMembrane, "authentication", authRoot);
-  /////////////First Concatenation////////////////                                                                                                                                                                                               
 
-  ////////////Second Concatenation : Ext///////////////                                                                                                                                                                                          
-  // Here i finnaly concatenante my last JsonObject and encapsulate the overall file inside the root JsonNode                                                                                                                                    
   JsonObject *rootObjectMembrane = json_object_new();
   JsonNode   *initRootMembrane = json_node_new(JSON_NODE_OBJECT);
   JsonNode   *rootMembrane = json_node_init_object(initRootMembrane, rootObjectMembrane);
@@ -660,10 +640,6 @@ cometd_new_handshake_message(const cometd* h)
    rootObjectMembrane = json_node_get_object(rootMembrane);
 
    json_object_set_member(rootObjectMembrane, "ext", secondRootMembrane);
-
-
-  // I still needs to create a object under Ext JsonNode, then an JsonArray to supportedConnectionTypes                                                                                                                                          
-  //Then add the advice object with "timeout" and "interval"                                                                                                                                                                                     
 
   json_object_set_int_member(rootObjectMembrane, "id", seed);
   json_object_set_string_member(rootObjectMembrane, "version", "1.0");
@@ -678,10 +654,8 @@ cometd_new_handshake_message(const cometd* h)
     entry = g_list_next(entry);
 }
 
-  //json_array_add_string_element(json_transports, "long-polling");
   json_object_set_array_member(rootObjectMembrane, "supportedConnectionTypes", json_transports);
 
-  //////////Advice////////                                                                                                                                                                                                                       
   JsonObject *adviceMembrane = json_object_new();
   JsonNode   *adviceNodeMembrane = json_node_new(JSON_NODE_OBJECT);
   JsonNode   *adviceRootMembrane = json_node_init_object(adviceNodeMembrane, adviceMembrane);
@@ -692,12 +666,6 @@ cometd_new_handshake_message(const cometd* h)
   json_object_set_int_member(adviceMembrane, "interval", interval);
   json_object_set_member(rootObjectMembrane, "advice", adviceRootMembrane);
 
-  /////////Advice////////                                                                                                                                                                                                                        
-
-
-
-   ////////////Second Concatenation//////////////
-  
   // call extensions with message - TODO: implement extensions first
   //json_node_take_object(root, obj);
   return rootMembrane;

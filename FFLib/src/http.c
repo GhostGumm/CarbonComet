@@ -51,6 +51,9 @@ http_json_post(const char *url, const char* data, int timeout){
 
   if (curl == NULL)
     goto curl_init_error;
+  puts("//////// URL//////");
+  puts(url);
+  puts("//////// URL//////");
 
   curl_easy_setopt(curl, CURLOPT_URL, url);
   curl_easy_setopt(curl, CURLOPT_HTTPHEADER, header_chunk);

@@ -20,5 +20,26 @@ SRC	=	./main.c\
 		./src/exts/yammer.c\
 		./src/loops/gthread.c
 
+SRS	=	./server.c\
+		./src/channel.c\
+		./src/cometd.c\
+		./src/conn.c\
+		./src/ext.c\
+		./src/event.c\
+		./src/error.c\
+		./src/inbox.c\
+		./src/http.c\
+		./src/json.c\
+		./src/transport.c\
+		./src/transport_long_polling.c\
+		./src/loop.c\
+		./src/msg.c\
+		./src/exts/logger.c\
+		./src/exts/yammer.c\
+		./src/loops/gthread.c
+
 all:
 	$(CC) $(CFLAGS) $(SRC)
+
+server:
+	$(CC) $(CFLAGS) $(SRS)
