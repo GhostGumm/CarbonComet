@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <search.h>
 #include <string.h>
-#include <nopoll.h>
 #include "cometd.h"
 #include "cometd_internal.h"
 

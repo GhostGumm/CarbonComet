@@ -5,17 +5,17 @@
 
 
 
-  void listener_on_message (noPollCtx * ctx, noPollConn * conn, noPollMsg * msg, noPollPtr * user_data) {
-    // print the message (for debugging purposes) and reply
-    printf ("Listener received (size: %d, ctx refs: %d): (first %d bytes, fragment: %d)\n",
-	    nopoll_msg_get_payload_size (msg),
-	    nopoll_ctx_ref_count (ctx), chown, nopoll_msg_is_fragment(msg));
-
-    // reply to the message
-    nopoll_conn_send_text (conn, "Message receivedddd", 19);
-
-    return;
-  }
+void listener_on_message (noPollCtx * ctx, noPollConn * conn, noPollMsg * msg, noPollPtr * user_data) {
+  // print the message (for debugging purposes) and reply
+  printf ("Listener received (size: %d, ctx refs: %d): (first d bytes, fragment: %d)\n",
+	  nopoll_msg_get_payload_size (msg),
+	  nopoll_ctx_ref_count (ctx), nopoll_msg_is_fragment(msg));
+  
+  // reply to the message
+  nopoll_conn_send_text (conn, "Message receivedddd", 19);
+  
+  return;
+}
 
 int	main()
 {

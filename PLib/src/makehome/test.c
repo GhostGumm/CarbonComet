@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
 			if (!cometd_handshake(client, handshakeFields)) {
 				printf("cometd_handshake OK\n");
 				while (!cometd_main_loop(client)) {
-					//printf("cometd_main_loop OK\n");
+					printf("---------------------cometd_main_loop OK\n----------------------");
 					if (!(i++ % 10))
 						cometd_send_chat_message(client, "this is a chat message", buddy);
 					if (i == 25) {

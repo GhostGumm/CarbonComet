@@ -38,7 +38,7 @@ char*
 http_json_post(const char *url, const char* data, int timeout){
   char* ret = NULL;
   unsigned int http_error = 1;
-
+  static int i;
   struct curl_slist *header_chunk = NULL;
 
   header_chunk = curl_slist_append(header_chunk,
@@ -51,7 +51,7 @@ http_json_post(const char *url, const char* data, int timeout){
 
   if (curl == NULL)
     goto curl_init_error;
-  puts("//////// URL//////");
+  printf("//////// URL////// number : %d\n", i++);
   puts(url);
   puts("//////// URL//////");
 
